@@ -25,8 +25,8 @@ Route::get('/401', [LoginController::class, 'naoautorizado'])->name('login');
 Route::post('/auth/login', [LoginController::class, 'login']);
 Route::post('/registro', [CadastroController::class, 'registro']);
 
-Route::get('lista/curso', [CadastroController::class, 'listaCurso']);
-Route::get('lista/campanha', [CadastroController::class, 'listaCampanha']);
+Route::get('lista/cultos', [CadastroController::class, 'listaCultos']);
+Route::get('lista/campanhas', [CadastroController::class, 'listaCampanhas']);
 
 Route::middleware('auth:api')->group(function(){
     Route::post('/auth/validacao', [LoginController::class, 'validaToken']);
