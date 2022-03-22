@@ -20,21 +20,24 @@ Route::get('/ping', function (){
     return ['pong' => true];
 });
 
+
 Route::get('/401', [LoginController::class, 'naoautorizado'])->name('login');
 
 Route::post('/auth/login', [LoginController::class, 'login']);
-Route::post('/registro', [CadastroController::class, 'registro']);
 
+// Routas tela de cadastro
+Route::post('/cadastro', [CadastroController::class, 'cadastro']);
 Route::get('lista/cultos', [CadastroController::class, 'listaCultos']);
 Route::get('lista/campanhas', [CadastroController::class, 'listaCampanhas']);
+Route::get('sistema/exibe-campos', [CadastroController::class, 'exibeCampos']);
 
 Route::middleware('auth:api')->group(function(){
     Route::post('/auth/validacao', [LoginController::class, 'validaToken']);
     Route::post('/auth/logout', [LoginController::class, 'logout']);
 
-    Route::get('/lista-visitantes', [VisitanteController::class, 'listaVisitante']);
-    Route::delete('/lista-visitantes', [VisitanteController::class, 'deletaVisitante']);
-    Route::put('/lista-visitantes', [VisitanteController::class, 'atualizaVisitante']);
+    Route::get('/lista/visitantes', [VisitanteController::class, 'listaVisitante']);
+    Route::delete('/visitantes/deleta/{cod_pessoa}', [VisitanteController::class, 'deletaVisitante']);
+    //Route::put('/lista-visitantes/edita/{cod_pessoa}', [VisitanteController::class, 'atualizaVisitante']);
 });
 
 
