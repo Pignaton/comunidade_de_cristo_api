@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api\login;
+namespace App\Http\Controllers\api\login;
 
+use App\Http\Requests\RecuperaSenhaRequest;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -67,6 +68,12 @@ class LoginController extends BaseController
     public function logout() {
         $array = ['error' => ''];
         auth()->logout();
+        return $array;
+    }
+
+    public function recuperaSenha(RecuperaSenhaRequest $request) {
+        $array = ['error' => ''];
+        $array['sucesso'] = $request->validated();
         return $array;
     }
 }
