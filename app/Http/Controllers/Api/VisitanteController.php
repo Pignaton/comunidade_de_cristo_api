@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pessoa;
@@ -24,6 +24,9 @@ class VisitanteController extends Controller
     public function deletaVisitante(Request $request) {
         $array = ['error' => ''];
         $cod_pessoa = $request->cod_pessoa;
+        if(empty($cod_pessoa)){
+            $array['error'] = 'Informe o codigo visitante';
+        }
         $pessoa = Pessoa::find($cod_pessoa);
         $pessoa->delete();
         $array['sucesso'] = $pessoa;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api\cadastro;
+namespace App\Http\Controllers\Api\Cadastro;
 
 use App\Http\Requests\CadastroRequest;
 use App\Models\Campanha;

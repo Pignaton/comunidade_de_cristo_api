@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api\login;
+namespace App\Http\Controllers\Api\Login;
 
 use App\Http\Requests\RecuperaSenhaRequest;
 use Illuminate\Http\Request;

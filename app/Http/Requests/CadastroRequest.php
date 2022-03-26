@@ -12,6 +12,7 @@ class CadastroRequest extends FormRequest
      *
      * @return bool
      */
+
     public function authorize()
     {
         return true;
@@ -25,13 +26,14 @@ class CadastroRequest extends FormRequest
     public function rules()
     {
         return [
-            'nome'  => 'required|regex:/^([a-zA-ZwÀ-ú]+)(\s[a-zA-ZwÀ-ú]+)*$/|max:50',
-            'email' => 'nullable|email|unique:pessoa||max:50',
+            'nome' => 'required|regex:/^([a-zA-ZwÀ-ú]+)(\s[a-zA-ZwÀ-ú]+)*$/|max:50',
+            'email' => 'nullable|email|unique:pessoa|max:50',
             'idade' => 'required|numeric|min:1|max:99',
             'culto' => 'required',
             'campanha' => 'nullable',
-            'sexo'  => 'required', Rule::in(['M', 'F']), //required_without_all
-            'telefone' => 'nullable|regex:/[0-9]{9}/'//(01)[0-9]{9}
+            'sexo' => 'required|in:M,F', //required_without_all
+            'telefone' => 'nullable|regex:/[0-9]{9}/',//(01)[0-9]{9}
+            'cep' => 'nullable|digits:8'
         ];
     }
 
@@ -45,4 +47,5 @@ class CadastroRequest extends FormRequest
             'sexo' => 'O Sexo deve estar devidamente selecionado'
         ];
     }
+
 }
