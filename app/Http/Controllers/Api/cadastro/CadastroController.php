@@ -55,7 +55,7 @@ class CadastroController extends BaseController
     {
         $array = ['error' => ''];
 
-        $cultos = Culto::all();
+        $cultos = Culto::where('status', 'A')->get();
 
         if ($cultos) {
             $array['cultos'] = $cultos;
@@ -71,7 +71,7 @@ class CadastroController extends BaseController
     {
         $array = ['error' => ''];
 
-        $campanhas = Campanha::all();
+        $campanhas = Campanha::where('status', 'A')->get();
 
         if ($campanhas) {
             $array['campanhas'] = $campanhas;

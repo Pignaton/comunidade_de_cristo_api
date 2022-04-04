@@ -40,8 +40,10 @@ class PequenoGrupo extends Model
     {
         return DB::table('integrante as a')
             ->select('a.cod_integrante', 'a.cod_pequeno_grupo', 'a.nome', 'a.idade', 'a.email')
+            ->leftJoin('lider_pequeno_grupo as lpg', 'a.cod_integrante', '=', 'lpg.cod_integrante')
             ->join('pequeno_grupo as b', 'a.cod_pequeno_grupo', '=', 'b.cod_pequeno_grupo')
             ->where('a.cod_pequeno_grupo', $cod_pequeno_grupo)
+            ->whereRaw('lpg.cod_lider_pequeno_grupo is null')
             ->whereRaw('a.deleted_at is null')
             ->whereRaw('b.deleted_at is null')
             ->get();
