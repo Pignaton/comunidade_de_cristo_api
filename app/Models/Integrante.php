@@ -35,7 +35,8 @@ class Integrante extends Model
     {
         return DB::table('integrante as a')
             ->join('endereco_integrante as b', 'b.cod_integrante', '=', 'a.cod_integrante')
-            ->whereRaw('deleted_at is null')
+            ->join('acesso as c', 'a.cod_integrante', '=', 'c.cod_integrante')
+            ->whereRaw('a.deleted_at is null')
             ->get();
     }
 }

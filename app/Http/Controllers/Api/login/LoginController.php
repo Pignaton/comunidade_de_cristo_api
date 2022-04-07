@@ -139,6 +139,6 @@ class LoginController extends BaseController
         $novaSenha = hash::make($request->senha);
         Acesso::where('email', $request->email)->update(['senha' => $novaSenha]);
         RedefinicaoSenha::where('email', $request->email)->delete();
-        return view('reseta-senha/');
+        return view('autenticacao/altera-senha-sucesso');
     }
 }

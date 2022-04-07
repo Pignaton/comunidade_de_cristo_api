@@ -61,7 +61,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/lista/integrantes/pequeno-grupo/{cod_pequeno_grupo}', [PequenoGrupoController::class, 'listaIntegrantesPequenoGrupo']);
 
 
-    Route::get('/lista/visitantes', [VisitanteController::class, 'listaVisitante']);
+    Route::get('/lista/visitantes/{nome?}/{sexo?}/{estado_civil?}', [VisitanteController::class, 'listaVisitante']);
     Route::delete('/visitante/deleta/{cod_pessoa}', [VisitanteController::class, 'deletaVisitante']);
     //Route::put('/visitante/edita/{cod_pessoa}', [VisitanteController::class, 'atualizaVisitante']);
 

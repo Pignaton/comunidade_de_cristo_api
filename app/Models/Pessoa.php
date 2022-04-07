@@ -19,13 +19,18 @@ class Pessoa extends Model
         "deleted_at"
     ];
 
-    public static function enderecoPessoa()
+    public static function enderecoPessoa($nome = null, $sexo = null, $estadoCivil = null)
     {
-        return DB::table('pessoa as p')
+        $query = DB::table('pessoa as p')
             ->select('p.cod_pessoa', 'p.cod_culto', 'p.cod_campanha', 'p.nome', 'p.idade', 'p.email', 'p.telefone', 'p.sexo',
                 'p.estado_civil', 'p.created_at', 'e.cod_endereco', 'e.cep', 'e.endereco', 'e.bairro', 'e.numero', 'e.complemento', 'e.cidade', 'e.estado')
             ->leftJoin('endereco as e', 'e.cod_pessoa', '=', 'p.cod_pessoa')
-            ->whereRaw('deleted_at is null')
+            ->orWhere('p.nome', 'like', "%{$nome}%")
+            ->where('p.sexo', '=', $sexo)
+            ->where('p.estado_civil', '=', $estadoCivil)
+            ->whereRaw('p.deleted_at is null')
             ->get();
+
+        return $query;
     }
 }

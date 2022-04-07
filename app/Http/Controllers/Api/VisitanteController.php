@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 
 class VisitanteController extends Controller
 {
-    public function listaVisitante()
+    public function listaVisitante(Request $request)
     {
         $array = ['error' => ''];
 
-        $pessoas = Pessoa::enderecoPessoa();
+        $pessoas = Pessoa::enderecoPessoa($request->nome,$request->sexo,$request->estado_civil);
         if($pessoas){
             $array['pessoas'] = $pessoas;
             return $array;

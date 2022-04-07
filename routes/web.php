@@ -37,3 +37,5 @@ Route::get('/acesso', function () {
 });
 Route::get('reseta-senha/token/{token}', [LoginController::class, 'resetaSenha']);
 Route::put('valida-senha', [LoginController::class, 'validaSenha']);
+Route::view('altera-senha/sucesso','autenticacao/altera-senha-sucesso');
+

@@ -1,3 +1,60 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@media (min-width: 320px) and (max-width: 480px) {
+    .text {
+        @apply text-gray-700 text-2xl sm:text-base p-3.5;
+    }
+    .icon {
+        @apply text-green-500 text-6xl p-2.5 text-center;
+    }
+}
+/*iPads, Tablets*/
+@media (min-width: 481px) and (max-width: 768px) {
+    .text {
+        @apply text-gray-700 text-2xl sm:text-base p-3.5;
+    }
+    .icon {
+        @apply text-green-500 text-6xl p-2.5 text-center;
+    }
+}
+
+/*Desktops, large screens*/
+@media (min-width: 769px) and (max-width: 1024px) {
+    .text {
+        @apply text-gray-700 text-3xl  p-3.5;
+    }
+    .icon {
+        @apply text-green-500 text-6xl p-2.5 text-center;
+    }
+}
+
+/*Desktops, large screens*/
+@media (min-width: 1025px) and (max-width: 1200px) {
+    .text {
+        @apply text-gray-700 text-3xl  p-3.5;
+    }
+    .icon {
+        @apply text-green-500 text-6xl p-2.5 text-center;
+    }
+}
+
+/*Extra large screens, TV*/
+@media (min-width: 1201px)  {
+    .text {
+        @apply text-gray-700 text-4xl p-3.5;
+    }
+    .icon {
+        @apply text-green-500 text-8xl p-2.5 text-center;
+    }
+}
+
+.btn {
+    @apply px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold rounded text-center inline-flex items-center;
+}
+
+.box-btn {
+    @apply p-3.5 text-center;
+}
