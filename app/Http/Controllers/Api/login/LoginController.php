@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Login;
 
 use App\Http\Requests\RecuperaSenhaRequest;
 use App\Http\Requests\ValidaSenhaRequest;
+use App\Mail\AlteraSenhaMail;
 use App\Mail\RecuperaSenha;
 use App\Models\Acesso;
 use App\Models\RedefinicaoSenha;
@@ -15,6 +16,8 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends BaseController
 {
@@ -53,7 +56,7 @@ class LoginController extends BaseController
 
             $acesso = Acesso::where('email', $request->email)->first();
 
-            if($acesso->status === 'B'){
+            if ($acesso->status === 'B') {
                 $array['error'] = 'Usuário foi bloqueado. Contate o administrador do sistema para saber mais.';
                 return $array;
             }
@@ -87,6 +90,66 @@ class LoginController extends BaseController
         $array = ['error' => ''];
         auth()->logout();
         return $array;
+    }
+
+    public function resetaSenhaApp(RecuperaSenhaRequest $request)
+    {
+
+        if (!empty($request->code_validation)) {
+            $deleteCode = RedefinicaoSenha::where('email', $request->email, 'cod_validation', $request->code_validation)->first();
+            if ($deleteCode) {
+                $deleteCode->delete();
+            }
+        }
+
+        $code = str_pad(rand(0, 999999), 6, 0, STR_PAD_LEFT);
+
+        $salvatoken = new RedefinicaoSenha();
+        $salvatoken->email = $request->email;
+        $salvatoken->code_validation = $code;
+        $salvatoken->created_at = now();
+        $salvatoken->expires_at = date('Y-m-d H:i:s', strtotime('+30 minutes'));
+        $salvatoken->save();
+
+        $maildata = [
+            'email' => $request->email,
+            'code' => $code,
+        ];
+
+        Mail::to($request->email)->send(new AlteraSenhaMail($maildata));
+
+        return ['status' => 'success', 'message' => 'Código de redefinição enviado com sucesso.'];
+
+    }
+
+    public function alteraSenha(Request $request)
+    {
+
+        $response = ['message' => '', 'sucesso' => ''];
+
+        $codigoRecuperacao = RedefinicaoSenha::where('email', $request->email)
+            ->where('code_validation', $request->code_validation)
+            ->first();
+
+        if (!$codigoRecuperacao) {
+            return response()->json(['message' => 'Código inválido.'], 400);
+        }
+
+        $codigoRecuperacao = Carbon::parse($codigoRecuperacao->created_at)->addMinutes(30)->isPast();
+
+        if ($codigoRecuperacao) {
+            return response()->json(['message' => 'Código expirado. Por favor, solicite um novo.'], 400);
+        }
+
+        $novaSenha = Hash::make($request->senha);
+        Acesso::where('email', $request->email)->update(['senha' => $novaSenha]);
+        RedefinicaoSenha::where('email', $request->email)->delete();
+        $response['sucesso'] = [
+            'status' => 'success',
+            'message' => 'Senha alterada com sucesso.'
+        ];
+
+        return response()->json($response);
     }
 
     public function recuperaSenha(RecuperaSenhaRequest $request)
@@ -127,7 +190,7 @@ class LoginController extends BaseController
         $redefinicao = RedefinicaoSenha::where('token', $request->token)->first();
 
         if (!empty($redefinicao->created_at) && $redefinicao->created_at >= date('Y-m-d H:i:s')) {
-           return view('/autenticacao/reseta-senha', ['dado' => $redefinicao]);
+            return view('/autenticacao/reseta-senha', ['dado' => $redefinicao]);
         }
         RedefinicaoSenha::where('token', $request->token)->delete();
         return view('/pages/404');

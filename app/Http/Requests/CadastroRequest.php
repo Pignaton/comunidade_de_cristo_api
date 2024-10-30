@@ -32,19 +32,28 @@ class CadastroRequest extends FormRequest
             'culto' => 'required',
             'campanha' => 'nullable',
             'sexo' => 'required|in:M,F', //required_without_all
-            'telefone' => 'nullable|regex:/[0-9]{9}/',//(01)[0-9]{9}
-            'cep' => 'nullable|digits:8'
+            'telefone' => 'nullable|min:14|max:15', //regex:/^\(?\d{2}\)?\s?\d{4,5}-\d{4}$/
+            'cep' => 'nullable|digits:8',
+            //'membro_igreja' => 'nullable|in:S,N'
         ];
     }
 
     public function messages()
     {
         return [
-            'nome.regex' => 'O campo nome deve conter só letras',
-            'culto.required' => 'Deve selecionar pelo menos o dia do culto',
-            'email' => 'O campo de e-mail deve estar preenchido',
-            'idade' => 'A idade do membro deve estar preenchida',
-            'sexo' => 'O Sexo deve estar devidamente selecionado'
+            'nome.required' => 'O campo nome é obrigatório.',
+            'nome.regex' => 'O campo nome deve conter apenas letras e espaços.',
+            'email.email' => 'O campo de e-mail deve ser um endereço de e-mail válido.',
+            'email.unique' => 'O e-mail já está em uso.',
+            'idade.numeric' => 'A idade deve ser um número.',
+            'idade.min' => 'A idade deve ser pelo menos 1.',
+            'idade.max' => 'A idade deve ser no máximo 99.',
+            'culto.required' => 'Deve selecionar pelo menos o dia do culto.',
+            'sexo.required' => 'O sexo deve ser selecionado.',
+            //'telefone.regex' => 'O telefone deve seguir o formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX.',
+            'telefone.min' => 'O telefone deve seguir o formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX.',
+            //'telefone.max' => 'O telefone não pode exceder 15 caracteres.',
+            'cep.digits' => 'O CEP deve conter exatamente 8 dígitos.',
         ];
     }
 

@@ -35,7 +35,8 @@
             "Tests\\": "tests/"
         },
         "files": [
-            "app/Helpers/DataHelper.php"
+            "app/Helpers/DataHelper.php",
+            "app/Helpers/FuncoesHelper.php"
         ]
     },
     "scripts": {

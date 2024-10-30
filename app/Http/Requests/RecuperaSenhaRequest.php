@@ -24,7 +24,7 @@ class RecuperaSenhaRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|exists:acesso',
+            'email' => 'required|email|exists:acesso,email',
         ];
     }
 
