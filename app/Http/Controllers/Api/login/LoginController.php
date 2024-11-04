@@ -96,7 +96,7 @@ class LoginController extends BaseController
     {
 
         if (!empty($request->code_validation)) {
-            $deleteCode = RedefinicaoSenha::where('email', $request->email, 'cod_validation', $request->code_validation)->first();
+            $deleteCode = RedefinicaoSenha::where('email', $request->email)->first();
             if ($deleteCode) {
                 $deleteCode->delete();
             }

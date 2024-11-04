@@ -1,6 +1,6 @@
 FROM php:8.1-fpm
 
-# set your user name, ex: user=carlos
+# Set your user name, ex: user=carlos
 ARG user=kpignaton
 ARG uid=1000
 
@@ -11,8 +11,10 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
-    zip \
-    unzip
+    libzip-dev \
+    unzip \
+    && docker-php-ext-configure zip --with-libzip \
+    && docker-php-ext-install zip
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*

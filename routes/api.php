@@ -29,6 +29,8 @@ Route::get('/ping', function () {
 
 Route::get('/401', [LoginController::class, 'naoautorizado'])->name('login');
 
+Route::post('/cria-acesso',[AcessoController::class, 'criaAcesso']);
+
 Route::post('/auth/login', [LoginController::class, 'login']);
 Route::post('/auth/reseta-senha', [LoginController::class, 'resetaSenhaApp']);
 Route::post('/auth/alterar-senha', [LoginController::class, 'alteraSenha']);
@@ -50,7 +52,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/auth/recupera-senha', [LoginController::class, 'recuperaSenha']);
 
 
-    Route::get('edita/minha-conta/{cod_pessoa}', [AcessoController::class, 'editaMeuDados']);
+    Route::put('edita/minha-conta/{cod_usuario}', [AcessoController::class, 'editaMeuDados']);
 
     Route::get('/lista/integrantes', [IntegranteController::class, 'listaIntegrantes']);
     Route::get('/lista/integrante/{cod_integrante}', [IntegranteController::class, 'listaIntegranteUnico']);
@@ -75,6 +77,7 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/visitante/deleta/{cod_pessoa}', [VisitanteController::class, 'deletaVisitante']);
     Route::get('/visitante/{cod_pessoa}', [VisitanteController::class, 'getVisitante']);
     //Route::put('/visitante/edita/{cod_pessoa}', [VisitanteController::class, 'atualizaVisitante']);
+    Route::get('/export/visitantes', [VisitanteController::class, 'exportVisitantes']);
 
     Route::post('/cadastro/primeiro-contato', [CadastroPrimeiroContatoController::class, 'cadastroPrimeiroContato']);
     Route::get('/lista/primeiro-contato/{cod_pessoa}', [CadastroPrimeiroContatoController::class, 'getPrimeiroContato']);

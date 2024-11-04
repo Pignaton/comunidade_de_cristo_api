@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\CultoRequest;
+use App\Http\Requests\AcessoRequest;
+use App\Http\Requests\CriaAcessoRequest;
 use App\Models\Acesso;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
@@ -16,26 +17,54 @@ class AcessoController extends BaseController
 {
 
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    
-    public function meuDados(Request $request) {
-        
+
+    public function meuDados(Request $request)
+    {
+
         $array = ['error' => ''];
-        
-    
+
+
         $usuario = Acesso::select('nome', 'email')
             ->where('cod_usuario', $request->cod_usuario)
             ->first();
-    
+
         if ($usuario) {
             $array['usuario'] = $usuario;
         } else {
             $array['error'] = 'Usuário não encontrado.';
         }
-    
+
         return $array;
     }
-    
-    public function editaMeuDados(Request $request) {
-        
+
+    public function editaMeuDados(AcessoRequest $request)
+    {
+        $array = ['error' => ''];
+
+        $usuario = Acesso::select('nome', 'email')
+            ->where('cod_usuario', $request->cod_usuario)
+            ->first();
+
+        if ($usuario) {
+            Acesso::where('cod_usuario', $request->cod_usuario)
+                ->update(['nome' => $request->nome,
+                    'email' => $request->email,
+                ]);
+
+            $array['usuario'] = $request->validated();
+
+            $array['success'] = [
+                'status' => 'success'
+            ];
+
+        } else {
+            $array['error'] = 'Usuário não encontrado.';
+        }
+
+        return $array;
+    }
+
+    public function criaAcesso(CriaAcessoRequest $request) {
+
     }
 }

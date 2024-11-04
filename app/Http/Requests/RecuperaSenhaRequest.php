@@ -31,7 +31,7 @@ class RecuperaSenhaRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.exists' => 'Não foi possível encontrar seu email.',
+            'email.exists' => 'Email não encontrado.',
         ];
     }
 }
